@@ -74,6 +74,11 @@ icon := golucide.GetIcon("star",
 fmt.Println(icon)
 ```
 
+### Get all available icon names
+```go
+names := golucide.GetAvailableIconNames()
+```
+
 ## Contributing
 Contributions are welcome! If you'd like to add new features or report issues, feel free to open an issue or pull request on the GitHub repository.
 

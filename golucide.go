@@ -91,3 +91,12 @@ func GetIcon(iconName string, opts ...Option) string {
 		attrs.StrokeLineJoin,
 	)
 }
+
+func GetAvailableIconNames() []string {
+	names := []string{}
+	for name := range icons {
+		names = append(names, name)
+	}
+
+	return names
+}
