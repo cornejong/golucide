@@ -12,7 +12,7 @@ go get github.com/cornejong/golucide
 GoLucide offers a straightforward API with default icon attributes, customizable via options. Here is a quick start guide:
 
 ### Basic Usage
-Use GetIcon to generate an icon's SVG string:
+Access an icon directly by it's function:
 
 ```go
 package main
@@ -23,7 +23,20 @@ import (
 )
 
 func main() {
-	fmt.Println(golucide.GetIcon("star"))
+    fmt.Println(golucide.Star())
+}
+```
+Or use GetIcon to generate an icon's SVG string:
+```go
+package main
+
+import (
+	"fmt"
+	"github.com/cornejong/golucide"
+)
+
+func main() {
+	fmt.Println(golucide.GetIcon("Star"))
 }
 ```
 
@@ -31,11 +44,18 @@ func main() {
 To change the icon’s size, color, or stroke properties, pass options to GetIcon:
 
 ```go
-icon := golucide.GetIcon("star", 
-	golucide.Size(32), 
+icon := golucide.Star(
+    golucide.Size(32), 
 	golucide.StrokeWidth(3), 
 	golucide.Fill("#FFD700"), 
 	golucide.StrokeColor("black"),
+)
+
+icon = golucide.GetIcon("Star", 
+    golucide.Size(32), 
+    golucide.StrokeWidth(3), 
+    golucide.Fill("#FFD700"), 
+    golucide.StrokeColor("black"),
 )
 ```
 
@@ -52,7 +72,7 @@ icon := golucide.GetIcon("star",
 Icons have default attributes defined as:
 
 ```go
-var DefaultAttributes = Attributes{
+var DefaultIconAttributes = iconAttributes{
 	Width:          24,
 	Height:         24,
 	Fill:           "none",
@@ -61,17 +81,6 @@ var DefaultAttributes = Attributes{
 	StrokeLineCap:  "round",
 	StrokeLineJoin: "round",
 }
-```
-### Example
-
-```go
-icon := golucide.GetIcon("star", 
-	golucide.Size(40), 
-	golucide.StrokeColor("#FF5733"), 
-	golucide.Fill("#FFF"),
-)
-
-fmt.Println(icon)
 ```
 
 ### Get all available icon names

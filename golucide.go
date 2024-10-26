@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-var DefaultAttributes = Attributes{
+var DefaultIconAttributes = iconAttributes{
 	Width:          24,
 	Height:         24,
 	Fill:           "none",
@@ -14,7 +14,7 @@ var DefaultAttributes = Attributes{
 	StrokeLineJoin: "round",
 }
 
-type Attributes struct {
+type iconAttributes struct {
 	Width          int
 	Height         int
 	Fill           string
@@ -24,59 +24,59 @@ type Attributes struct {
 	StrokeLineJoin string
 }
 
-type Option func(*Attributes)
+type iconOption func(*iconAttributes)
 
-func Size(size int) Option {
-	return func(a *Attributes) {
+func Size(size int) iconOption {
+	return func(a *iconAttributes) {
 		a.Width = size
 		a.Height = size
 	}
 }
 
-func SizeHW(width, height int) Option {
-	return func(a *Attributes) {
+func SizeHW(width, height int) iconOption {
+	return func(a *iconAttributes) {
 		a.Width = width
 		a.Height = height
 	}
 }
 
-func StrokeWidth(strokeWidth int) Option {
-	return func(a *Attributes) {
+func StrokeWidth(strokeWidth int) iconOption {
+	return func(a *iconAttributes) {
 		a.StrokeWidth = strokeWidth
 	}
 }
 
-func Fill(fill string) Option {
-	return func(a *Attributes) {
+func Fill(fill string) iconOption {
+	return func(a *iconAttributes) {
 		a.Fill = fill
 	}
 }
 
-func StrokeColor(stroke string) Option {
-	return func(a *Attributes) {
+func StrokeColor(stroke string) iconOption {
+	return func(a *iconAttributes) {
 		a.Stroke = stroke
 	}
 }
 
-func StrokeLineCap(lineCap string) Option {
-	return func(a *Attributes) {
+func StrokeLineCap(lineCap string) iconOption {
+	return func(a *iconAttributes) {
 		a.StrokeLineCap = lineCap
 	}
 }
 
-func StrokeLineJoin(lineJoin string) Option {
-	return func(a *Attributes) {
+func StrokeLineJoin(lineJoin string) iconOption {
+	return func(a *iconAttributes) {
 		a.StrokeLineJoin = lineJoin
 	}
 }
 
-func GetIcon(iconName string, opts ...Option) string {
+func GetIcon(iconName string, opts ...iconOption) string {
 	template, exists := icons[iconName]
 	if !exists {
 		return ""
 	}
 
-	attrs := DefaultAttributes
+	attrs := DefaultIconAttributes
 	for _, opt := range opts {
 		opt(&attrs)
 	}
