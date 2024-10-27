@@ -1,6 +1,9 @@
 # GoLucide: Lucide Icons for Go
 **GoLucide** is [lucide](https://lucide.dev/) icons for go. Currently based on ```v0.453.0```.
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/cornejong/golucide.svg)](https://pkg.go.dev/github.com/cornejong/golucide) 
+[![Go Report Card](https://goreportcard.com/badge/github.com/cornejong/golucide)](https://goreportcard.com/report/github.com/cornejong/golucide)
+
 # Installation
 To install GoLucide, use go get:
 
@@ -67,6 +70,9 @@ icon = golucide.GetIcon("Star",
 - ```StrokeColor(stroke string)```: Set the stroke color.
 - ```StrokeLineCap(lineCap string)```: Set the stroke line cap.
 - ```StrokeLineJoin(lineJoin string)```: Set the stroke line join.
+- ```WithClasses(class...string)```: Set the classes for the icon.
+- ```WithID(id string)```: Set the ID for the icon.
+- ```WithAttribute(name string, value string)```: Set any attribute on the icon.
 
 ### Default Attributes
 Icons have default attributes defined as:
@@ -80,6 +86,8 @@ var DefaultIconAttributes = iconAttributes{
 	StrokeWidth:    2,
 	StrokeLineCap:  "round",
 	StrokeLineJoin: "round",
+    Class:          "lucide",
+    Extra          []KeyValuePair
 }
 ```
 

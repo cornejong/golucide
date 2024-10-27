@@ -2,7 +2,10 @@ package golucide
 
 import (
 	"fmt"
+	"strings"
 )
+
+const svgTagTemplate string = `<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d" fill="%s" stroke="%s" stroke-width="%d" stroke-linecap="%s" stroke-linejoin="%s" class="%s" %s viewBox="0 0 24 24" >%s</svg>`
 
 var DefaultIconAttributes = iconAttributes{
 	Width:          24,
@@ -12,6 +15,7 @@ var DefaultIconAttributes = iconAttributes{
 	StrokeWidth:    2,
 	StrokeLineCap:  "round",
 	StrokeLineJoin: "round",
+	Class:          "lucide",
 }
 
 type iconAttributes struct {
@@ -22,6 +26,13 @@ type iconAttributes struct {
 	StrokeWidth    int
 	StrokeLineCap  string
 	StrokeLineJoin string
+	Class          string
+	Extra          []KeyValuePair
+}
+
+type KeyValuePair struct {
+	Key   string
+	Value string
 }
 
 type iconOption func(*iconAttributes)
@@ -70,8 +81,27 @@ func StrokeLineJoin(lineJoin string) iconOption {
 	}
 }
 
+func WithClasses(classes ...string) iconOption {
+	return func(a *iconAttributes) {
+		a.Class = fmt.Sprintf("%s %s", a.Class, strings.Join(classes, " "))
+	}
+}
+
+func WithID(id string) iconOption {
+	return WithAttribute("id", id)
+}
+
+func WithAttribute(name string, value string) iconOption {
+	return func(a *iconAttributes) {
+		a.Extra = append(a.Extra, KeyValuePair{
+			Key:   name,
+			Value: value,
+		})
+	}
+}
+
 func GetIcon(iconName string, opts ...iconOption) string {
-	template, exists := icons[iconName]
+	paths, exists := icons[iconName]
 	if !exists {
 		return ""
 	}
@@ -81,7 +111,14 @@ func GetIcon(iconName string, opts ...iconOption) string {
 		opt(&attrs)
 	}
 
-	return fmt.Sprintf(template,
+	var extraAttributes strings.Builder
+	if len(attrs.Extra) > 0 {
+		for _, pair := range attrs.Extra {
+			extraAttributes.WriteString(fmt.Sprintf(`%s="%s"`, pair.Key, pair.Value))
+		}
+	}
+
+	return fmt.Sprintf(svgTagTemplate,
 		attrs.Width,
 		attrs.Height,
 		attrs.Fill,
@@ -89,6 +126,9 @@ func GetIcon(iconName string, opts ...iconOption) string {
 		attrs.StrokeWidth,
 		attrs.StrokeLineCap,
 		attrs.StrokeLineJoin,
+		attrs.Class,
+		extraAttributes.String(),
+		paths,
 	)
 }
 
